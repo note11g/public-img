@@ -3,6 +3,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <meta property="og:title" content="note image viewer" />
     <title>note static image viewer</title>
 </head>
 <body>
@@ -14,9 +16,9 @@
             return searchParams.get(key);
         }
 
-        function getImagePath(imageName) {
+        function getImagePath(imageName, isAbsolute = false) {
             // todo: change to using github api
-            return `./${imageName}.webp`;
+            return !isAbsolute ? `./${imageName}.webp` : `https://note11.dev/public-img/${imageName}.webp`;
         }
 
         function showImageElement(src) {
@@ -26,12 +28,17 @@
             imageHolder.appendChild(newImageElement);
         }
 
+        function changeTitle(title) {
+            document.title = title;
+        }
+
         function onLoad() {
             const imageName = getQueryParams("i");
             if (!imageName) return;
 
             const imagePath = getImagePath(imageName);
             showImageElement(imagePath);
+            changeTitle(imageName);
         }
 
         onLoad();
@@ -40,7 +47,7 @@
     <style>
         body {
             width: 100%;
-            height: 100vh;
+            height: 100%;
             background: #000000;
             margin: 0;
         }
