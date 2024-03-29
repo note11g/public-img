@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>note static image viewer</title>
+</head>
+<body>
+    <div id="image-holder"></div>
+
+    <script>
+        function getQueryParams(key) {
+            const searchParams = new URLSearchParams(window.location.search);
+            return searchParams.get(key);
+        }
+
+        function getImagePath(imageName) {
+            // todo: change to using github api
+            return `./${imageName}.webp`;
+        }
+
+        function showImageElement(src) {
+            const newImageElement = document.createElement("img");
+            newImageElement.src = src;
+            const imageHolder = document.getElementById("image-holder");
+            imageHolder.appendChild(newImageElement);
+        }
+
+        function onLoad() {
+            const imageName = getQueryParams("i");
+            if (!imageName) return;
+
+            const imagePath = getImagePath(imageName);
+            showImageElement(imagePath);
+        }
+
+        onLoad();
+    </script>
+</body>
+    <style>
+        body {
+            width: 100%;
+            height: 100vh;
+            background: #000000;
+            margin: 0;
+        }
+        #image-holder {
+            width: 100%;
+            height: 100%;
+        }
+        img {
+            width: 100%;
+            height: 100%;
+            object-fit: contain;
+        }
+    </style>
+</html>
